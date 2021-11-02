@@ -10,20 +10,29 @@ namespace BL.Esencia_de_cafe
 {
     public class ProductosBL
     {
-        contexto _contexto;
+        contexto _Contexto;
         public BindingList<Producto> ListaProductos { get; set; }
         public ProductosBL()
         {
-            _contexto = new contexto();
+            _Contexto = new contexto();
             ListaProductos = new BindingList<Producto>();
 
         }
 
         public BindingList<Producto> ObtenerProductos()
         {
-            _contexto.Productos.Load();
-            ListaProductos = _contexto.Productos.Local.ToBindingList();
+            _Contexto.Productos.Load();
+            ListaProductos = _Contexto.Productos.Local.ToBindingList();
             return ListaProductos;
+        }
+
+        public void CancelarCambios()
+        {
+            foreach (var item in _Contexto.ChangeTracker.Entries())
+            {
+                item.State = EntityState.Unchanged;
+                item.Reload();
+            }
         }
         public Resultado guardarProducto(Producto producto) //guardar producto
         {
@@ -33,7 +42,7 @@ namespace BL.Esencia_de_cafe
                 return resultado;
             }
 
-            _contexto.SaveChanges();
+            _Contexto.SaveChanges();
             resultado.Exitoso = true;
             return resultado;
         }
@@ -51,7 +60,7 @@ namespace BL.Esencia_de_cafe
                 if (producto.id == id)
                 {
                     ListaProductos.Remove(producto);
-                    _contexto.SaveChanges();
+                    _Contexto.SaveChanges();
                     return true;
                 }
             }
@@ -69,12 +78,11 @@ namespace BL.Esencia_de_cafe
                 resultado.Exitoso = false;
             }
 
-            if (string.IsNullOrEmpty(producto.Categorias) == true)
+            if (producto.Categoriaid == 0)
             {
-                resultado.Mensaje = "Ingrese una Categoria";
+                resultado.Mensaje = "Seleccione una categoria";
                 resultado.Exitoso = false;
             }
-
             if (producto.Precio <= 0 )
             {
                 resultado.Mensaje = "El precio debe ser mayor que Cero (0)";
@@ -86,9 +94,11 @@ namespace BL.Esencia_de_cafe
     public class Producto
     {
         public int id { get; set; }
-        public string Categorias { get; set; }
+        public Categoria Categoria { get; set; }
+        public int Categoriaid { get; set; }
         public string Descripcion { get; set; }
         public double Precio { get; set; }
+        public byte[] Foto { get; set; }
         public bool Activo { get; set; }
     }
     public class Resultado

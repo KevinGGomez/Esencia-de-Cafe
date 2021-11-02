@@ -52,7 +52,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CategoriaBL.cs" />
     <Compile Include="contexto.cs" />
+    <Compile Include="DatosdeInicio.cs" />
     <Compile Include="ProductosBL.cs" />
     <Compile Include="SeguridadBL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -60,6 +62,7 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\CategoriaBL.datasource" />
     <None Include="Properties\DataSources\Producto.datasource" />
     <None Include="Properties\DataSources\ProductosBL.datasource" />
     <None Include="Properties\DataSources\SeguridadBL.datasource" />
