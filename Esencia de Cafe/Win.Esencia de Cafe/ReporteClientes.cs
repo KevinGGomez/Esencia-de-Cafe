@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BL.Esencia_de_cafe;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,6 +16,28 @@ namespace Win.Esencia_de_Cafe
         public ReporteClientes()
         {
             InitializeComponent();
+
+            var _clienteBL = new ClientesBL();
+            var bidingSource = new BindingSource();
+            bidingSource.DataSource = _clienteBL.ObtenerClientes();
+
+            var reporte = new DetalleClientes();
+            reporte.SetDataSource(bidingSource);
+
+            crystalReportViewer1.ReportSource = reporte;
+            crystalReportViewer1.RefreshReport();
+
+        }
+
+        private void ReporteClientes_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void crystalReportViewer1_Load(object sender, EventArgs e)
+        {
+           
+
         }
     }
 }
